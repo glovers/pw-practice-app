@@ -111,7 +111,7 @@ test('date pickers', async ({ page }) => {
   await calendarInputField.click();
 
   let date = new Date();
-  date.setDate(date.getDate() + 1);
+  date.setDate(date.getDate() + 200);
   const expectedDate = date.getDate().toString();
   const expectedMonthShort = date.toLocaleString('En-US', { month: 'short' });
   const expectedMonthLong = date.toLocaleString('En-US', { month: 'long' });
@@ -129,6 +129,22 @@ test('date pickers', async ({ page }) => {
     .locator('[class="day-cell ng-star-inserted"]')
     .getByText(expectedDate, { exact: true })
     .click();
-  await expect(calendarInputField).toHaveValue('Jun  1, 2023');
+  // await expect(calendarInputField).toHaveValue('Jun  1, 2023');
   await expect(calendarInputField).toHaveValue(dateToAssert);
+});
+
+test('sliders', async ({ page }) => {
+  // Update attribute
+
+  // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperture dragger circle');
+  // await tempGauge.evaluate(node => {
+  //   node.setAttribute('cx', '232.630');
+  //   node.setAttribute('cy', '232.630');
+  // });
+
+  // await tempGauge.click();
+
+  //Mouse movement
+  const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperture dragger');
+  await tempBox.scrollIntoViewIfNeeded();
 });
