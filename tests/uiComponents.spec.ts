@@ -109,4 +109,26 @@ test('date pickers', async ({ page }) => {
 
   const calendarInputField = page.getByPlaceholder('Form Picker');
   await calendarInputField.click();
+
+  let date = new Date();
+  date.setDate(date.getDate() + 1);
+  const expectedDate = date.getDate().toString();
+  const expectedMonthShort = date.toLocaleString('En-US', { month: 'short' });
+  const expectedMonthLong = date.toLocaleString('En-US', { month: 'long' });
+  const expectedYear = date.getFullYear();
+  const dateToAssert = `${expectedMonthShort} ${expectedDate}, ${expectedYear}`;
+
+  let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+  const expectedMonthAndYear = ` ${expectedMonthLong} ${expectedYear}`;
+  while (!calendarMonthAndYear.includes(expectedMonthAndYear)) {
+    await page.locator('nb-calendar-pageable-navigation [date-name="chevron-right]').click();
+    calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+  }
+
+  await page
+    .locator('[class="day-cell ng-star-inserted"]')
+    .getByText(expectedDate, { exact: true })
+    .click();
+  await expect(calendarInputField).toHaveValue('Jun  1, 2023');
+  await expect(calendarInputField).toHaveValue(dateToAssert);
 });
