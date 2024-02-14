@@ -136,7 +136,7 @@ test('date pickers', async ({ page }) => {
 test('sliders', async ({ page }) => {
   // Update attribute
 
-  // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperture dragger circle');
+  // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle');
   // await tempGauge.evaluate(node => {
   //   node.setAttribute('cx', '232.630');
   //   node.setAttribute('cy', '232.630');
@@ -145,6 +145,16 @@ test('sliders', async ({ page }) => {
   // await tempGauge.click();
 
   //Mouse movement
-  const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperture dragger');
+  const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger');
   await tempBox.scrollIntoViewIfNeeded();
+
+  const box = await tempBox.boundingBox();
+  const x = box.x + box.width / 2; // this will put in centre
+  const y = box.y + box.height / 2; // this will put in centre
+  await page.mouse.move(x, y); // this allows you to move both x and y
+  await page.mouse.down(); // This will hold left click mouse down
+  await page.mouse.move(x + 100, y); // this will move mouse to the right
+  await page.mouse.move(x + 100, y + 100); //This will move mouse further
+  await page.mouse.up(); //  This will release left click on mouse
+  await expect(tempBox).toContainText('30');
 });
