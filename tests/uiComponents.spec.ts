@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Form Layouts page', () => {
   test.beforeEach(async ({ page }) => {
     await page.getByText('Forms').click();
-    await page.getByText('Forms Layouts').click();
+    await page.getByText('Form Layouts').click();
   });
 
   test('input fields', async ({ page }) => {
@@ -50,7 +50,7 @@ test.describe('Form Layouts page', () => {
 
   test('tooltips', async ({ page }) => {
     await page.getByText('Modal & Overlays').click();
-    await page.getByText('Toastr').click();
+    await page.getByText('Tooltip').click();
 
     const toolTipCard = page.locator('nb-card', { hasText: 'Tooltip Placements' });
     await toolTipCard.getByRole('button', { name: 'Top' }).hover();
