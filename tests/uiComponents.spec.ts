@@ -1,11 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { delay } from 'rxjs-compat/operator/delay';
 
+test.describe.configure({ mode: 'parallel' });
+
 test.beforeEach(async ({ page }) => {
-  await page.goto('http://localhost:4200/');
+  await page.goto('/');
 });
 
 test.describe('Form Layouts page', () => {
+  test.describe.configure({ retries: 2 });
   test.beforeEach(async ({ page }) => {
     await page.getByText('Forms').click();
     await page.getByText('Form Layouts').click();
@@ -25,7 +28,8 @@ test.describe('Form Layouts page', () => {
     expect(inputValue).toEqual('test2@test.com');
 
     //locator assertion
-    await expect(usingTheGridEmailInput).toHaveValue('test2@test.com');
+    // await expect(usingTheGridEmailInput).toHaveValue('test2@test.com');
+    await expect(usingTheGridEmailInput).toHaveValue('test2@test.com1');
   });
 
   test('radio buttons', async ({ page }) => {

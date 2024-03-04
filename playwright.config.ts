@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import type { TestOptions } from './test options/test-options';
 
 // // attempting to use playwright
 // const config = {
@@ -24,7 +24,6 @@ import { defineConfig, devices } from '@playwright/test';
 // };
 // module.exports = config;
 
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -34,7 +33,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -42,6 +41,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
+  // 2: 0 means off and 2:1 means on
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -49,7 +49,8 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:4200/',
+    globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
