@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { timeout } from 'rxjs-compat/operator/timeout';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('http://uitestingplayground.com/ajax');
+  await page.goto(process.env.URL);
   await page.getByText('Button Triggering AJAX Request').click();
 });
 

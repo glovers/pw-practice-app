@@ -1,34 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test options/test-options';
-
-// // attempting to use playwright
-// const config = {
-//   use: {
-//       screenshot: 'only-on-failure',
-//       video: 'retain-on-failure',
-//   },
-//   reporter: [
-//       ['list'],
-//       ['playwright-qase-reporter',
-//           {
-//               apiToken: '44741ade0ab0135209718f69e5393fae6f454fb043415448cdd6a6aa2fa1f95e',
-//               projectCode: 'DEMO',
-//               basePath: 'https://api.qase.io/v1',
-//               uploadAttachments: true,
-//               runComplete: true,
-//               logging: true,
-//               rootSuiteTitle: 'Playwright tests',
-//               environmentId: 'Test 1'
-//           }],
-//   ],
-// };
-// module.exports = config;
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -40,8 +16,7 @@ export default defineConfig<TestOptions>({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  // 2: 0 means off and 2:1 means on
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -51,16 +26,28 @@ export default defineConfig<TestOptions>({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:4200/',
     globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
+    // baseURL:
+    //   process.env.DEV === '1'
+    //     ? 'http://localhost:4200/'
+    //     : process.env.STAGING == '1'
+    //     ? 'http://localhost:4200/'
+    //     : 'http://localhost:4201',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    actionTimeout: 20000,
+    navigationTimeout: 25000,
+    video: {
+      mode: 'off',
+      size: { width: 1920, height: 1080 },
+    },
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4200/' },
     },
 
     {

@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
-import { from } from 'rxjs';
+import { expect } from '@playwright/test';
+import { test } from '../test options/test-options';
 
-test('drag and drop with iFrames', async ({ page }) => {
-  await page.goto('https://www.globalsqa.com/demo-site/draganddrop/');
+test('drag and drop with iFrames', async ({ page, globalsQaURL }) => {
+  await page.goto(globalsQaURL);
   const frame = page.frameLocator('[rel-title="Photo Manager"] iframe');
   await frame.locator('li', { hasText: 'High Tatras 2' }).dragTo(frame.locator('#trash'));
 
