@@ -28,8 +28,8 @@ test.describe('Form Layouts page', () => {
     expect(inputValue).toEqual('test2@test.com');
 
     //locator assertion
-    // await expect(usingTheGridEmailInput).toHaveValue('test2@test.com');
-    await expect(usingTheGridEmailInput).toHaveValue('test2@test.com1');
+    await expect(usingTheGridEmailInput).toHaveValue('test2@test.com');
+    // await expect(usingTheGridEmailInput).toHaveValue('test2@test.com1');
   });
 
   test('radio buttons', async ({ page }) => {
